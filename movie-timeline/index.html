@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>fligtar's movie timeline</title>
+    <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAMoPqRjsC0dhiV9zI84bKchTnqeLhuioiMhX5PZXXFDSOuKggAxS9WLYShkFAdXzSDZNxU_QBKRQD2g"></script>
+    <script type="text/javascript" src="timemap/lib/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="timemap/lib/mxn/mxn.js?(google)"></script>
+    <script type="text/javascript" src="timemap/lib/timeline-1.2.js"></script>
+    <script type="text/javascript" src="timemap/src/timemap.js"></script>
+    <script type="text/javascript" src="timemap/src/param.js"></script>
+    <script type="text/javascript" src="timemap/src/loaders/json.js"></script>
+    <script type="text/javascript" src="timemap/src/loaders/google_spreadsheet.js"></script>
+	<script type="text/javascript">
+        var tm;
+        $(function() {
+    
+            tm = TimeMap.init({
+                mapId: "map",               // Id of map div element (required)
+                timelineId: "timeline",     // Id of timeline div element (required) 
+                options: {
+                    eventIconPath: "timemap/images/"
+                },
+                datasets: [
+                    {
+                        title: "fligtar's Movie Timeline",
+                        id: "events",
+                        theme: "red",
+                        type: "gss",
+                        options: {
+                            // note that your spreadsheet must be published for this to work
+                            key: "0Aswo2Bn17-PrdHlkQW5sNEV5a1NUdThuelRxWWFYUEE",
+                            // map spreadsheet column names to expected ids
+                            paramMap: {
+                                start: "date",
+                                title: "movie"
+                            },
+                            // load extra data from non-standard spreadsheet columns
+                            extraColumns: [
+                                "date",
+                                "time",
+                                "theatre",
+                                "price"
+                            ],
+                            // let's do something with that extra data!
+                            infoTemplate: "<table style='table'>" + 
+                                          "<tr><th colspan='2' class='title'>{{title}}</th></tr>" +
+                                          "<tr><th>Date</th><td>{{date}}</td></tr>" +
+                                          "<tr><th>Time</th><td>{{time}}</td></tr>" +
+                                          "<tr><th>Theatre</th><td>{{theatre}}</td></tr>" +
+                                          "<tr><th>Price</th><td>{{price}}</td></tr>" +
+                                          "</table>"
+                        }
+                    }
+                ],
+                bandIntervals: [
+                    Timeline.DateTime.MONTH,
+                    Timeline.DateTime.YEAR
+                ]
+            });
+        });
+        
+        //tm.timeline.getBand(0).setCenterVisibleDate(Timeline.DateTime.parseGregorianDateTime('2007-01-01'))
+    </script>
+    
+    <style type="text/css">
+        body {
+            font-family: helvetica, sans-serif;
+        }
+        #timelinecontainer{
+            width: 100%;
+            height: 40%;
+        }
+        #timeline{
+            width: 100%;
+            height: 100%;
+            font-size: 12px;
+            background: #CCCCCC;
+        }
+        #mapcontainer {
+            width: 100%;
+            height: 400px;
+        }
+        #timemap {
+            height: 650px;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+            background: #EEEEEE;
+        }
+        .table {
+            border:1px solid #000;
+            width:300px;
+        }
+        .table tr td {
+            padding: 5px;
+        }
+        th {
+            font-weight: bold;
+            text-align: left;
+        }
+        th.title {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>fligtar's movie timeline</h1>
+
+    <div id="timemap">
+        <div id="timelinecontainer">
+            <div id="timeline"></div>
+        </div>
+        <div id="mapcontainer">
+            <div id="map"></div>
+        </div>
+    </div>
+</body>
+
+</html>
